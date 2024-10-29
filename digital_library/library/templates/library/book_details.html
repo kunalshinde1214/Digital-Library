@@ -1,0 +1,64 @@
+{% extends 'library/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="book-detail">
+        <h1>{{ book.title }}</h1>
+        <div class="book-info">
+            <p><strong>Author:</strong> {{ book.author.name }}</p>
+            <p><strong>Genre:</strong> {{ book.get_genre_display }}</p>
+            <p><strong>Language:</strong> {{ book.get_language_display }}</p>
+            <p><strong>Release Date:</strong> {{ book.release_date }}</p>
+            <p><strong>Summary:</strong></p>
+            <div class="book-summary">
+                {{ book.summary }}
+            </div>
+            <div class="book-actions">
+                <a href="{{ book.file.url }}" class="btn btn-primary">Download {{ book.file_type }}</a>
+                <a href="{% url 'library:book_edit' book.pk %}" class="btn btn-secondary">Edit Book</a>
+                <a href="{% url 'library:book_list' %}" class="btn btn-info">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .book-detail {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .book-info {
+        margin-top: 20px;
+    }
+    .book-summary {
+        margin: 15px 0;
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 5px;
+    }
+    .book-actions {
+        margin-top: 20px;
+    }
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        margin-right: 10px;
+        border-radius: 4px;
+        text-decoration: none;
+        color: white;
+    }
+    .btn-primary {
+        background-color: #007bff;
+    }
+    .btn-secondary {
+        background-color: #6c757d;
+    }
+    .btn-info {
+        background-color: #17a2b8;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends 'library/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h1>Digital Library</h1>
+        <a href="{% url 'library:book_create' %}" class="btn btn-primary">Add New Book</a>
+    </div>
+
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="filters">
+        <form method="get" class="filter-form">
+            <select name="genre" onchange="this.form.submit()">
+                <option value="">All Genres</option>
+                {% for genre_code, genre_name in book_genres %}
+                <option value="{{ genre_code }}" {% if selected_genre == genre_code %}selected{% endif %}>
+                    {{ genre_name }}
+                </option>
+                {% endfor %}
+            </select>
+
+            <select name="language" onchange="this.form.submit()">
+                <option value="">All Languages</option>
+                {% for lang_code, lang_name in book_languages %}
+                <option value="{{ lang_code }}" {% if selected_language == lang_code %}selected{% endif %}>
+                    {{ lang_name }}
+                </option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+
+    <div class="book-list">
+        {% for book in books %}
+        <div class="book-item">
+            <h2>{{ book.title }}</h2>
+            <p>Author: {{ book.author.name }}</p>
+            <p>Genre: {{ book.get_genre_display }}</p>
+            <p>Language: {{ book.get_language_display }}</p>
+            <p>Release Date: {{ book.release_date }}</p>
+            <div class="book-actions">
+                <a href="{% url 'library:book_detail' book.pk %}" class="btn btn-info">View Details</a>
+                <a href="{% url 'library:book_edit' book.pk %}" class="btn btn-secondary">Edit</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    .header h1{
+         color: white;
+         margin: 0;
+         font-size: 2.5rem;
+         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    .filters {
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 5px;
+    }
+    .filter-form select {
+        padding: 8px;
+        margin-right: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    .book-item {
+        background-color: white;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .book-actions {
+        margin-top: 10px;
+    }
+    .btn {
+        display: inline-block;
+        padding: 8px 15px;
+        margin-right: 10px;
+        border-radius: 4px;
+        text-decoration: none;
+        color: white;
+    }
+    .btn-info {
+        background-color: #17a2b8;
+    }
+    .btn-secondary {
+        background-color: #6c757d;
+    }
+    .btn-primary {
+        background-color: #007bff;
+    }
+</style>
+{% endblock %}

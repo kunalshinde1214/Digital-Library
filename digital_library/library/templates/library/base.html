@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Digital Library</title>
+    {% load static%}
+    <style>
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .book-item { border: 1px solid #ddd; padding: 15px; margin: 10px 0; }
+        .book-details { margin-top: 20px; }
+        .nav {
+            background-color: #536;
+            padding: 25px;
+            color: white;
+            box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+        }
+        .nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 30px;
+        }
+        .nav a:hover {
+            color: #411;
+        }
+    </style>
+</head>
+<body class="body" background="https://i.postimg.cc/50LxJNW5/360-F-323929694-BKk-GKE8d-WIWqp-G91tz-YFC3-GHPNdjg6mh.jpg" no repeat>
+    {% if user.is_authenticated %}
+    <div class="nav">
+        <a href="{% url 'library:book_list' %}" style="border-bottom-width: 4px;">Home</a>
+        <a href="{% url 'logout' %}" style="float: right;border-bottom-width: 4px;">Logout</a>
+        <span style="float: right; margin-right: 20px;border-bottom-width: 4px;">Welcome, {{ user.username }}</span>
+    </div>
+    {% endif %}
+
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
